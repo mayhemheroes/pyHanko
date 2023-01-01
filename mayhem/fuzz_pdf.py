@@ -13,8 +13,10 @@ def TestOneInput(data):
     fdp = fuzz_helpers.EnhancedFuzzedDataProvider(data)
     try:
         with fdp.ConsumeMemoryFile(all_data=True, as_bytes=True) as f:
-            PdfFileReader(f)
-            IncrementalPdfFileWriter(f)
+            if fdp.ConsumeBool():
+                PdfFileReader(f)
+            else:
+                IncrementalPdfFileWriter(f)
     except PdfError:
         return -1
 
