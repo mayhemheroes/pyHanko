@@ -1,8 +1,10 @@
 # Build Stage
-FROM fuzzers/atheris:2.0.7-python3.9
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir atheris
 
 ADD . /src
 WORKDIR /src
-RUN python3 -m pip install .
+RUN pip install --no-cache-dir ./pkgs/pyhanko-certvalidator ./pkgs/pyhanko
 
 CMD ["/src/mayhem/fuzz_pdf.py"]
